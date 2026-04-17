@@ -141,17 +141,17 @@
                 </p>
 </div>
 <!-- Countdown Component -->
-<div class="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl mx-auto py-12">
+<div class="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl mx-auto py-12" data-launch-iso="2026-05-01T00:00:00Z" id="countdown">
 <div class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col items-center justify-center space-y-2 border border-outline-variant/10">
-<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none">14</span>
+<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none" id="countdown-days">14</span>
 <span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Days</span>
 </div>
 <div class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col items-center justify-center space-y-2 border border-outline-variant/10">
-<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none">23</span>
+<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none" id="countdown-hours">23</span>
 <span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Hours</span>
 </div>
 <div class="glass-panel p-6 md:p-8 rounded-2xl flex flex-col items-center justify-center space-y-2 border border-outline-variant/10">
-<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none">58</span>
+<span class="header-font text-4xl md:text-6xl font-bold text-primary-fixed leading-none" id="countdown-minutes">58</span>
 <span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Minutes</span>
 </div>
 </div>
@@ -223,4 +223,31 @@
 </div>
 </div>
 </footer>
+<script>
+        const countdownRoot = document.getElementById('countdown');
+
+        if (countdownRoot) {
+            const targetIso = countdownRoot.dataset.launchIso;
+            const targetTime = new Date(targetIso).getTime();
+            const daysEl = document.getElementById('countdown-days');
+            const hoursEl = document.getElementById('countdown-hours');
+            const minutesEl = document.getElementById('countdown-minutes');
+
+            const updateCountdown = () => {
+                const now = Date.now();
+                const remaining = Math.max(targetTime - now, 0);
+
+                const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((remaining / (1000 * 60)) % 60);
+
+                daysEl.textContent = String(days).padStart(2, '0');
+                hoursEl.textContent = String(hours).padStart(2, '0');
+                minutesEl.textContent = String(minutes).padStart(2, '0');
+            };
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
 </body></html>
